@@ -1,4 +1,4 @@
-from AntennaMeasurementCNF.core import probeRadius
+from CylindiricalNearField.core import probeRadius
 
 
 def main() -> None:

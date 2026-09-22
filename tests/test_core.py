@@ -1,5 +1,5 @@
 
-from AntennaMeasurementCNF.core import wavelength, c, measurementDistance, probeRadius
+from CylindiricalNearField.core import wavelength, c, measurementDistance, probeRadius
 
 def test_wavelength():
     frequency = 299792458  # ~300 MHz
@@ -35,7 +35,7 @@ def test_probeRadius():
     
 
 def test_scanSizeY():
-    from AntennaMeasurementCNF.core import scanSizeY
+    from CylindiricalNearField.core import scanSizeY
     D = 0.2
     P = 0.247
     Z = 2.5
@@ -52,7 +52,7 @@ def test_scanSizeY():
     
     
 def test_stepSizeY():
-    from AntennaMeasurementCNF.core import stepSizeY
+    from CylindiricalNearField.core import stepSizeY
     scan_size  = 6.0
     frequency = 1.2E9  # ~1.2 GHz
     expected   = 0.124
@@ -65,7 +65,7 @@ def test_stepSizeY():
 
 
 def test_samplingCountY():
-    from AntennaMeasurementCNF.core import samplingCountY
+    from CylindiricalNearField.core import samplingCountY
     scan_size  = 6.0
     frequency =  1.2E9  # ~1.2 GHz
     expected   = 51  # Based on step size of 0.124 m
@@ -77,7 +77,7 @@ def test_samplingCountY():
     assert calculated == expected
     
 def test_stepSizeAzimuth():
-    from AntennaMeasurementCNF.core import stepSizeAzimuth
+    from CylindiricalNearField.core import stepSizeAzimuth
     frequency =  1.2E9  # ~1.2 GHz
     mre       = 0.6
     expected  = 6
@@ -90,7 +90,7 @@ def test_stepSizeAzimuth():
 
 
 def test_samplingCountAzimuth():
-    from AntennaMeasurementCNF.core import samplingCountAzimuth
+    from CylindiricalNearField.core import samplingCountAzimuth
     Az_max    = 180
     frequency = 1.2E9  # ~1.2 GHz
     mre       = 0.6

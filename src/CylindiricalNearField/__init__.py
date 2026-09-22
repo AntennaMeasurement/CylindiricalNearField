@@ -1,6 +1,6 @@
 from importlib.metadata import version
 
-from AntennaMeasurementCNF.core import wavelength, measurementDistance, probeRadius
+from CylindiricalNearField.core import wavelength, measurementDistance, probeRadius
 
 __version__ = version("antenna-measurement-cnf")
 

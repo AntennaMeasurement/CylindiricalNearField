@@ -5,7 +5,7 @@ A Python package for cylindrical near-field antenna measurement support function
 ## Installation
 
 ```bash
-pip install AntennaMeasurementCNF
+pip install CylindiricalNearField
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ pip install AntennaMeasurementCNF
 As a library:
 
 ```python
-from AntennaMeasurementCNF import probeRadius
+from CylindiricalNearField import probeRadius
 
 probeRadius(3, [0.4, 0.6, 1.195, 0.2])  # example usage
 ```
@@ -21,7 +21,7 @@ probeRadius(3, [0.4, 0.6, 1.195, 0.2])  # example usage
 As a command line tool:
 
 ```bash
-AntennaMeasurementCNFCli
+CylindiricalNearFieldCli
 ```
 
 ## Package Functions

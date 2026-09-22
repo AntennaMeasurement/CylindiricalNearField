@@ -1,11 +1,11 @@
 #!/bin/bash
 
-package_name="AntennaMeasurementCNF"
+package_name="CylindiricalNearField"
 package_description="Cylindrical Near-Field Antenna Measurement Support Functions"
 package_author="Hüseyin YİĞİT"
 package_author_email="yigit.hsyn@gmail.com"
 package_license="MIT"
-package_repository="https://github.com/AntennaMeasurement/cnf.git"
+package_repository="https://github.com/AntennaMeasurement/CylindiricalNearField.git"
 
 set -e
 set -u
@@ -14,14 +14,15 @@ set -o pipefail
 echo "Bootstrapping the project..."
 
 # Creating project layout directories
-mkdir -p cnf/src/${package_name}
-mkdir -p cnf/tests
+mkdir -p ./"src/${package_name}"
+mkdir -p ./tests
 
 # Creating initial files
 touch src/${package_name}/__init__.py
 touch src/${package_name}/core.py
 touch src/${package_name}/cli.py
 touch tests/test_core.py
+touch tests/test_cli.py
 
 # Add hello function to core.py
 cat <<EOL >> src/${package_name}/core.py
@@ -77,8 +78,14 @@ EOL
 # Virtual environment setup
 echo "Setting up virtual environment..."
 python -m venv .venv
-source .venv/bin/activate
-pip install -e ".[test]"
+# If windows
+if [[ "$OSTYPE" == "msys" ]]; then
+    source .venv/Scripts/activate
+else
+    source .venv/bin/activate
+fi
+# Install project dependencies
+pip install -e ".[test,build]"
 
 # Run first test
 echo "Running first test..."
