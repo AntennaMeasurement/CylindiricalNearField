@@ -39,15 +39,15 @@ def wavelength(frequency: float) -> float:
   return c / frequency
 
 
-def measurementDistance(frequency: float, coefficient: float = 5) -> float:
+def measurementDistance(frequency: float, coeff: float = 5) -> float:
   r"""Calculate the required measurement distance for a given frequency in terms of the wavelength.
 
   Parameters
   ----------
   frequency : float
       Frequency in hertz.
-  coefficient : float, optional
-      Coefficient to multiply the wavelength by, default 5
+  coeff : float, optional
+      Coefficient to multiply the wavelength by, default 5.
 
   Returns
   -------
@@ -60,11 +60,11 @@ def measurementDistance(frequency: float, coefficient: float = 5) -> float:
 
   .. math::
 
-      d = \text{coefficient} \cdot \lambda
+      d = \text{coeff} \cdot \lambda
 
   where :math:`\lambda` is the wavelength corresponding to the frequency :math:`f`.
   """
-  return coefficient * wavelength(frequency)
+  return coeff * wavelength(frequency)
   
   
 def probeRadius(ref_distance: float, lengths: list[float]) -> float:
@@ -88,9 +88,9 @@ def probeRadius(ref_distance: float, lengths: list[float]) -> float:
   
   .. math::
 
-      r = R_ref - \sum_i \text{l}_i
+      r = R_{ref} - \sum_i \text{l}_i
       
-  where :math:`R_ref` is the reference distance and :math:`l_i` are the individual lengths in the list.
+  where :math:`R_{ref}` is the reference distance and :math:`l_i` are the individual lengths in the list.
   
   """
   return ref_distance - sum(lengths)
@@ -126,8 +126,8 @@ def scanSizeY(D: float, P: float, Z: float, R: float, Az_max: float, El_max: flo
   
   .. math::
 
-      L_Y = D + P + 2 \cdot (Z - R \cdot \cos(\text{Az_max})) \cdot \tan(\text{El_max})
-
+      L_Y = D + P + 2 \cdot (Z - R \cdot \cos(\text{Az}_{max})) \cdot \tan(\text{El}_{max})
+      
   References
   ----------
   .. [1] *NSI 2000 (Near-field Edition), Version 4, Software Operating Manual*
@@ -161,10 +161,12 @@ def stepSizeY(scan_size: float, frequency: float) -> float:
 
   Notes
   -----
-  The step size in the Y direction is typically calculated as a fraction of the wavelength corresponding to the given frequency.
+  The step size in the Y direction is typically calculated as a fraction of the smallest wavelength corresponding to the given frequency list.
   
-  ..math::
-    \Delta_Y = \frac{\lambda}{2}
+  .. math::
+  
+    \Delta_Y = \frac{\lambda_{min}}{2}
+    
   """
   
   dy = wavelength(frequency) / 2
@@ -225,8 +227,29 @@ def stepSizeAzimuth(frequency: float, MRE: float) -> float:
   -----
   The step size in the azimuth direction is typically calculated as a fraction of the wavelength corresponding to the given frequency.
   
-  ..math::
-    \Delta_{Az} = \frac{\lambda}{2}
+.. math::
+
+   N_{\mathrm{az}}^{(0)}
+   = \left\lceil
+       2\left(\frac{2\pi\,\mathrm{MRE}}{\lambda_{min}} + 10\right) + 1
+     \right\rceil
+
+   N_{\mathrm{az}} \leftarrow
+   \begin{cases}
+     N_{\mathrm{az}}^{(0)}, & N_{\mathrm{az}}^{(0)} \text{ is odd},\\
+     N_{\mathrm{az}}^{(0)} + 1, & N_{\mathrm{az}}^{(0)} \text{ is even}.
+   \end{cases}
+
+   \Delta_{\mathrm{az}} = \frac{360^\circ}{N_{\mathrm{az}} - 1}
+
+   \text{While } \left\lfloor 1000\,\Delta_{\mathrm{az}} \right\rfloor
+   \bmod 250 \ne 0:
+   \qquad
+   N_{\mathrm{az}} \leftarrow N_{\mathrm{az}} + 2,
+   \quad
+   \Delta_{\mathrm{az}} \leftarrow
+   \frac{360^\circ}{N_{\mathrm{az}} - 1}
+    
   """
   
   Naz = math.ceil(2*(2*math.pi*MRE/wavelength(frequency)+10)+1)
