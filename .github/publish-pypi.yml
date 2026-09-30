@@ -1,0 +1,29 @@
+# GitHub Actions workflow for publishing the CylindiricalNearField package to PyPI
+# When tag is created, this workflow will publish the package to PyPI.
+# For more information on GitHub Actions, see https://docs.github.com/en/actions
+name: Publish to PyPI
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel twine
+      - name: Build and publish
+        run: |
+          python setup.py sdist bdist_wheel
+          python -m twine upload dist/*
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}

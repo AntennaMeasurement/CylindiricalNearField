@@ -1,0 +1,23 @@
+# GitHub Actions workflow for creating a release on GitHub
+# Trigger the workflow when a new tag is pushed
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+name: Create Release
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
