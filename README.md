@@ -46,7 +46,7 @@ pytest --verbose -s
 
 ## Documentation
 
-The Sphinx documentation is hosted on [Read the Docs](https://readthedocs.org/).
+The Sphinx documentation is hosted on [Read the Docs](https://cylindirical-near-field.readthedocs.org/).
 Build it locally with:
 
 ```bash
