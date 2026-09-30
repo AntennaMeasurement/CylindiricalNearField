@@ -1,10 +1,12 @@
+"""Calculations for cylindrical near-field antenna measurement scans."""
+
 import math
 
 ################################################################################
 # Physical constants 
 ################################################################################
 
-# speed of light in vacuum (m/s)
+#: Speed of light in vacuum, in meters per second.
 c = 299792458
 
 ################################################################################
@@ -120,6 +122,7 @@ def scanSizeY(D: float, P: float, Z: float, R: float, Az_max: float, El_max: flo
   Notes
   -----
   The scan size in the Y direction is calculated based on the given parameters.
+    The geometry follows the referenced NSI 2000 method [1]_.
   
   .. math::
 
@@ -204,21 +207,19 @@ def samplingCountY(scan_size: float, frequency: float) -> int:
 
 
 def stepSizeAzimuth(frequency: float, MRE: float) -> float:
-  r"""Calculate the step size in the azimuth direction based on the maximum azimuth angle and frequency.
+  r"""Calculate the angular step size in azimuth for a frequency and scan radius.
 
   Parameters
   ----------
-  Az_max : float
-      Maximum azimuth angle in degrees along one side.
   frequency : float
       Frequency in Hz.
   MRE : float
-      Maximum radial extend in meters.
+      Maximum radial extent in meters.
 
   Returns
   -------
   float
-      Step size in the azimuth direction in meters.
+      Angular step size in degrees.
 
   Notes
   -----

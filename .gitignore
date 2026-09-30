@@ -8,3 +8,4 @@ dist/
 venv/
 .mypy_cache/
 .coverage
+/docs/_build/

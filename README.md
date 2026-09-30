@@ -5,7 +5,7 @@ A Python package for cylindrical near-field antenna measurement support function
 ## Installation
 
 ```bash
-pip install CylindiricalNearField
+python -m pip install .
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ probeRadius(3, [0.4, 0.6, 1.195, 0.2])  # example usage
 As a command line tool:
 
 ```bash
-CylindiricalNearFieldCli
+amcnf
 ```
 
 ## Package Functions
@@ -43,3 +43,15 @@ The package provides the following functions:
 pip install -e .[test]
 pytest --verbose -s
 ```
+
+## Documentation
+
+The Sphinx documentation is hosted on [Read the Docs](https://readthedocs.org/).
+Build it locally with:
+
+```bash
+python -m pip install -e . -r docs/requirements.txt
+python -m sphinx -b html docs docs/_build/html
+```
+
+See the [documentation source](docs/index.rst) for the API reference and usage.
