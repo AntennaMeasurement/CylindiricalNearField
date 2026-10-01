@@ -1,0 +1,61 @@
+name: Tag version changes
+
+on:
+  push:
+
+permissions:
+  contents: write
+
+jobs:
+  tag-version:
+    if: github.ref_type == 'branch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compare project versions
+        id: version
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import os
+          import subprocess
+          import tomllib
+
+          before = os.environ["BEFORE_SHA"]
+          current = os.environ["CURRENT_SHA"]
+          if set(before) == {"0"}:
+              with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+                  output.write("changed=false\n")
+              raise SystemExit(0)
+
+          def get_version(revision):
+              content = subprocess.check_output(
+                  ["git", "show", f"{revision}:pyproject.toml"], text=True
+              )
+              return tomllib.loads(content)["project"]["version"]
+
+          previous_version = get_version(before)
+          current_version = get_version(current)
+          changed = previous_version != current_version
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"changed={str(changed).lower()}\n")
+              if changed:
+                  output.write(f"version={current_version}\n")
+          PY
+
+      - name: Create and push version tag
+        if: steps.version.outputs.changed == 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git tag -a "v${VERSION}" "${GITHUB_SHA}" -m "Release version ${VERSION}"
+          git push origin "v${VERSION}"
