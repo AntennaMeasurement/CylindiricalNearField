@@ -68,6 +68,17 @@ jobs:
           git tag -a "v${VERSION}" "${GITHUB_SHA}" -m "Release version ${VERSION}"
           git push origin "v${VERSION}"
 
+      - name: Collect commit messages since previous tag
+        if: steps.version.outputs.changed == 'true'
+        run: |
+          previous_tag=$(git describe --tags --abbrev=0 "${GITHUB_SHA}^" 2>/dev/null || true)
+          if [[ -n "$previous_tag" ]]; then
+            git log --format='- %s' "${previous_tag}..${GITHUB_SHA}" > release-notes.md
+          else
+            git log --format='- %s' "${GITHUB_SHA}" > release-notes.md
+          fi
+          cat release-notes.md
+
       - name: Create GitHub Release
         if: steps.version.outputs.changed == 'true'
         env:
@@ -76,4 +87,4 @@ jobs:
         run: |
           gh release create "v${VERSION}" dist/* \
             --title "Release v${VERSION}" \
-            --generate-notes
+            --notes-file release-notes.md
