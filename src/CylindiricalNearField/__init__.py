@@ -2,8 +2,28 @@
 
 from importlib.metadata import version
 
-from CylindiricalNearField.core import wavelength, measurementDistance, probeRadius
+from .core import (
+	wavelength,
+	measurementDistance,
+	probeRadius,
+	scanSizeY,
+	stepSizeY,
+	samplingCountY,
+	stepSizeAzimuth,
+	samplingCountAzimuth,
+)
 
 __version__ = version("CylindiricalNearField")
 
-__all__ = ["wavelength", "measurementDistance", "probeRadius"]
+# Public functions exposed by the package (constant c is intentionally omitted).
+
+__all__ = [
+	"wavelength",
+	"measurementDistance",
+	"probeRadius",
+	"scanSizeY",
+	"stepSizeY",
+	"samplingCountY",
+	"stepSizeAzimuth",
+	"samplingCountAzimuth",
+]
