@@ -1,0 +1,10 @@
+{
+  "name": "cylindirical-near-field",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "exports": "./index.js",
+  "scripts": {
+    "test": "node --test"
+  }
+}
