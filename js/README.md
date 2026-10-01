@@ -34,3 +34,14 @@ The same API is available through CommonJS in Node.js with
 ## Tests
 
 With Node.js installed, run `npm test` from this directory.
+
+## API Documentation
+
+Generate the JSDoc HTML site with:
+
+```bash
+npm run docs
+```
+
+The generated site is written to `docs/`. The configured JSDoc plugin renders
+each custom `@formula` tag on its function's API page.

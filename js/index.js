@@ -18,6 +18,8 @@
  * @param {number} frequency - Frequency in hertz.
  * @returns {number} Wavelength in meters.
  * @formula λ = c / f
+ * @memberof CylindiricalNearField
+ * @static
  * @see {@link measurementDistance}
  * @example
  * wavelength(299792458); // 1
@@ -35,6 +37,8 @@ function wavelength(frequency) {
  * @param {number} [coeff=5] - Coefficient applied to the wavelength.
  * @returns {number} Measurement distance in meters.
  * @formula d = coeff × λ
+ * @memberof CylindiricalNearField
+ * @static
  * @see {@link wavelength}
  * @example
  * measurementDistance(299792458); // 5
@@ -52,6 +56,8 @@ function measurementDistance(frequency, coeff = 5) {
  * @param {number[]} lengths - Component lengths in meters.
  * @returns {number} Probe radius in meters.
  * @formula r = Rref − Σ li
+ * @memberof CylindiricalNearField
+ * @static
  * @example
  * probeRadius(3, [0.4, 0.6, 1.195, 0.2]); // approximately 0.605
  */
@@ -74,6 +80,8 @@ function probeRadius(ref_distance, lengths) {
  * @throws {RangeError} If `El_max` is greater than 60 degrees.
  * @throws {RangeError} If `Z` is less than or equal to `R`.
  * @formula LY = D + P + 2 × (Z − R × cos(Az_max)) × tan(El_max)
+ * @memberof CylindiricalNearField
+ * @static
  * @see NSI 2000 (Near-field Edition), Version 4, Software Operating Manual.
  */
 function scanSizeY(D, P, Z, R, Az_max, El_max) {
@@ -100,6 +108,8 @@ function scanSizeY(D, P, Z, R, Az_max, El_max) {
  * @param {number} frequency - Frequency in hertz.
  * @returns {number} Step size in the Y direction, in meters.
  * @formula ΔY = floor(1000 × (λ / 2)) / 1000 m
+ * @memberof CylindiricalNearField
+ * @static
  * @see {@link wavelength}
  */
 function stepSizeY(scan_size, frequency) {
@@ -118,6 +128,8 @@ function stepSizeY(scan_size, frequency) {
  * @param {number} frequency - Frequency in hertz.
  * @returns {number} Number of Y-direction sampling points.
  * @formula NY = 2 × (H / s) + 1
+ * @memberof CylindiricalNearField
+ * @static
  * @see {@link stepSizeY}
  */
 function samplingCountY(scan_size, frequency) {
@@ -145,6 +157,8 @@ function samplingCountY(scan_size, frequency) {
  * @param {number} MRE - Maximum radial extent in meters.
  * @returns {number} Azimuth step size in degrees.
  * @formula N0 = ceil(2 × (2π × MRE / λ + 10) + 1); ΔAz = 360° / (Naz − 1)
+ * @memberof CylindiricalNearField
+ * @static
  * @see {@link wavelength}
  * @see {@link samplingCountAzimuth}
  */
@@ -175,6 +189,8 @@ function stepSizeAzimuth(frequency, MRE) {
  * @returns {number} Number of azimuth sampling points.
  * @throws {RangeError} If `Az_max` is not an integer multiple of 0.25 degrees.
  * @formula N0 = ceil(2 × (2π × MRE / λ + 10) + 1); ΔAz = Az_max / (Naz − 1)
+ * @memberof CylindiricalNearField
+ * @static
  * @see {@link wavelength}
  * @see {@link stepSizeAzimuth}
  */
@@ -197,7 +213,11 @@ function samplingCountAzimuth(Az_max, frequency, MRE) {
   return sampleCount;
 }
 
-  return {
+  /**
+   * Browser and CommonJS API for cylindrical near-field calculations.
+   * @namespace CylindiricalNearField
+   */
+  const api = {
     wavelength,
     measurementDistance,
     probeRadius,
@@ -207,4 +227,5 @@ function samplingCountAzimuth(Az_max, frequency, MRE) {
     stepSizeAzimuth,
     samplingCountAzimuth,
   };
+  return api;
 });

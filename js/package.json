@@ -5,6 +5,10 @@
   "type": "commonjs",
   "exports": "./index.js",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "docs": "jsdoc -c jsdoc.json index.js"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.5"
   }
 }

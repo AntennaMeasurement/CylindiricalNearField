@@ -1,0 +1,15 @@
+{
+  "plugins": ["./jsdoc/formula-plugin.js"],
+  "sourceType": "script",
+  "source": {
+    "include": ["index.js"]
+  },
+  "tags": {
+    "allowUnknownTags": false,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "opts": {
+    "destination": "./docs",
+    "readme": "README.md"
+  }
+}
