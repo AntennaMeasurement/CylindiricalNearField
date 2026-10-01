@@ -92,6 +92,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          gh release create "v${VERSION}" dist/* \
+          gh release create "v${VERSION}" dist/*.whl dist/*.tar.gz \
             --title "Release v${VERSION}" \
             --notes-file release-notes.md
