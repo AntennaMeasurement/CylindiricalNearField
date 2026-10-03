@@ -9,7 +9,16 @@ and angles in degrees.
 Load the script before your application code:
 
 ```html
-<script src="./js/index.js"></script>
+<script src="./lib/wavelength.js"></script>
+<script src="./lib/measurement-distance.js"></script>
+<script src="./lib/probe-radius.js"></script>
+<script src="./lib/scan-size-y.js"></script>
+<script src="./lib/step-size-y.js"></script>
+<script src="./lib/sampling-count-y.js"></script>
+<script src="./lib/sampling-parameters-y.js"></script>
+<script src="./lib/step-size-azimuth.js"></script>
+<script src="./lib/sampling-count-azimuth.js"></script>
+<script src="./index.js"></script>
 <script>
   const { measurementDistance, probeRadius } = window.CylindiricalNearField;
   console.log(measurementDistance(1.2e9));
@@ -22,14 +31,17 @@ The same API is available through CommonJS in Node.js with
 
 ## API
 
-- `wavelength(frequency)`
-- `measurementDistance(frequency, coeff = 5)`
-- `probeRadius(ref_distance, lengths)`
-- `scanSizeY(D, P, Z, R, Az_max, El_max)`
-- `stepSizeY(scan_size, frequency)`
-- `samplingCountY(scan_size, frequency)`
-- `stepSizeAzimuth(frequency, MRE)`
-- `samplingCountAzimuth(Az_max, frequency, MRE)`
+```js
+function wavelength(frequency)
+function measurementDistance(frequency, coeff = 5)
+function probeRadius(ref_distance, lengths)
+function scanSizeY(D, P, Z, MRE, Az_max, El_max)
+function stepSizeY(frequency)
+function samplingCountY(scan_size, frequency)
+function samplingParametersY(D, P, Z, MRE, Az_max, El_max, frequency)
+function stepSizeAzimuth(frequency, MRE)
+function samplingCountAzimuth(Az_max, frequency, MRE)
+```
 
 ## Tests
 

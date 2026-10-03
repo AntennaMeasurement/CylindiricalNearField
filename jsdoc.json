@@ -2,7 +2,18 @@
   "plugins": ["./jsdoc/formula-plugin.js"],
   "sourceType": "script",
   "source": {
-    "include": ["index.js"]
+    "include": [
+      "index.js",
+      "lib/wavelength.js",
+      "lib/measurement-distance.js",
+      "lib/probe-radius.js",
+      "lib/scan-size-y.js",
+      "lib/step-size-y.js",
+      "lib/sampling-count-y.js",
+      "lib/sampling-parameters-y.js",
+      "lib/step-size-azimuth.js",
+      "lib/sampling-count-azimuth.js"
+    ]
   },
   "tags": {
     "allowUnknownTags": false,
