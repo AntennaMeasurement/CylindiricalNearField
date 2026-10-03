@@ -5,14 +5,14 @@
     "include": [
       "index.js",
       "lib/wavelength.js",
-      "lib/measurement-distance.js",
-      "lib/probe-radius.js",
-      "lib/scan-size-y.js",
-      "lib/step-size-y.js",
-      "lib/sampling-count-y.js",
-      "lib/sampling-parameters-y.js",
-      "lib/step-size-azimuth.js",
-      "lib/sampling-count-azimuth.js"
+      "lib/measurementDistance.js",
+      "lib/probeRadius.js",
+      "lib/scanSizeY.js",
+      "lib/stepSizeY.js",
+      "lib/samplingCountY.js",
+      "lib/samplingParametersY.js",
+      "lib/stepSizeAzimuth.js",
+      "lib/samplingCountAzimuth.js"
     ]
   },
   "tags": {

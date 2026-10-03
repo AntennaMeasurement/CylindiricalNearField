@@ -6,17 +6,17 @@
     ? Object.assign(
       {},
       {
-        wavelength: require("./lib/01_wavelength"),
-        measurementDistance: require("./lib/02_measurement-distance"),
-        probeRadius: require("./lib/03_probe-radius"),
+        wavelength: require("./lib/wavelength"),
+        measurementDistance: require("./lib/measurementDistance"),
+        probeRadius: require("./lib/probeRadius"),
       },
       {
-        scanSizeY: require("./lib/scan-size-y"),
-        stepSizeY: require("./lib/04_step-size-y"),
-        samplingCountY: require("./lib/sampling-count-y"),
-        samplingParametersY: require("./lib/sampling-parameters-y"),
-        stepSizeAzimuth: require("./lib/step-size-azimuth"),
-        samplingCountAzimuth: require("./lib/sampling-count-azimuth"),
+        scanSizeY: require("./lib/scanSizeY"),
+        stepSizeY: require("./lib/stepSizeY"),
+        samplingCountY: require("./lib/samplingCountY"),
+        samplingParametersY: require("./lib/samplingParametersY"),
+        stepSizeAzimuth: require("./lib/stepSizeAzimuth"),
+        samplingCountAzimuth: require("./lib/samplingCountAzimuth"),
       },
     )
     : root.CylindiricalNearField || {};
