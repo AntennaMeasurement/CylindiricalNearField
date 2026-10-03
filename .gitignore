@@ -1,5 +1,5 @@
-js/docs
-node_modules/
+docs
+node_modules
 
 __pycache__/
 *.py[cod]

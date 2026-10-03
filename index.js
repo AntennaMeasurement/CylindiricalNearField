@@ -73,28 +73,28 @@ function probeRadius(ref_distance, lengths) {
  * @param {number} D - Antenna height in meters.
  * @param {number} P - Probe longest-edge length in meters.
  * @param {number} Z - Probe radius in meters.
- * @param {number} R - Maximum radial extent in meters.
+ * @param {number} MRE - Maximum radial extent in meters.
  * @param {number} Az_max - Maximum azimuth angle in degrees.
  * @param {number} El_max - Maximum elevation angle in degrees; must not exceed 60.
  * @returns {number} Scan size in the Y direction, in meters.
  * @throws {RangeError} If `El_max` is greater than 60 degrees.
- * @throws {RangeError} If `Z` is less than or equal to `R`.
- * @formula LY = D + P + 2 × (Z − R × cos(Az_max)) × tan(El_max)
+ * @throws {RangeError} If `Z` is less than or equal to `MRE`.
+ * @formula LY = D + P + 2 × (Z − MRE × cos(Az_max)) × tan(El_max)
  * @memberof CylindiricalNearField
  * @static
  * @see NSI 2000 (Near-field Edition), Version 4, Software Operating Manual.
  */
-function scanSizeY(D, P, Z, R, Az_max, El_max) {
+function scanSizeY(D, P, Z, MRE, Az_max, El_max) {
   if (El_max > 60) {
     throw new RangeError("El_max should be equal or less than 60 degrees.");
   }
-  if (Z <= R) {
-    throw new RangeError("Z distance must be greater than R (MRE).");
+  if (Z <= MRE) {
+    throw new RangeError("Z distance must be greater than MRE.");
   }
 
   const azimuthRadians = Az_max * Math.PI / 180;
   const elevationRadians = El_max * Math.PI / 180;
-  return D + P + 2 * (Z - R * Math.cos(azimuthRadians)) * Math.tan(elevationRadians);
+  return D + P + 2 * (Z - MRE * Math.cos(azimuthRadians)) * Math.tan(elevationRadians);
 }
 
 /**
@@ -104,7 +104,6 @@ function scanSizeY(D, P, Z, R, Az_max, El_max) {
  * retained in the API for compatibility; the step size depends only on
  * frequency.
  *
- * @param {number} scan_size - Scan size in the Y direction, in meters.
  * @param {number} frequency - Frequency in hertz.
  * @returns {number} Step size in the Y direction, in meters.
  * @formula ΔY = floor(1000 × (λ / 2)) / 1000 m
@@ -112,7 +111,7 @@ function scanSizeY(D, P, Z, R, Az_max, El_max) {
  * @static
  * @see {@link wavelength}
  */
-function stepSizeY(scan_size, frequency) {
+function stepSizeY(frequency) {
   const halfWavelength = wavelength(frequency) / 2;
   return Math.floor(Math.trunc(halfWavelength * 1e3)) / 1e3;
 }
@@ -120,20 +119,16 @@ function stepSizeY(scan_size, frequency) {
 /**
  * Calculate the number of sampling points in the Y direction.
  *
- * Let `s` be the Y step size in millimeters and `H` be the smallest multiple
- * of `s` greater than or equal to half the scan length rounded up to a
- * millimeter.
- *
  * @param {number} scan_size - Scan size in the Y direction, in meters.
  * @param {number} frequency - Frequency in hertz.
  * @returns {number} Number of Y-direction sampling points.
- * @formula NY = 2 × (H / s) + 1
+ * @formula N_Y = \frac{2 \cdot \lceil L_Y / 2 \rceil}{\Delta_Y} + 1
  * @memberof CylindiricalNearField
  * @static
  * @see {@link stepSizeY}
  */
 function samplingCountY(scan_size, frequency) {
-  const stepSizeMillimeters = Math.trunc(stepSizeY(scan_size, frequency) * 1e3);
+  const stepSizeMillimeters =  stepSizeY(frequency) * 1e3;
   const scanLengthMillimeters = Math.ceil(scan_size * 1e3);
   let halfScanLengthMillimeters = scanLengthMillimeters % 2 === 0
     ? scanLengthMillimeters / 2
@@ -145,6 +140,40 @@ function samplingCountY(scan_size, frequency) {
   }
 
   return 2 * Math.trunc(halfScanLengthMillimeters / stepSizeMillimeters) + 1;
+}
+
+/**
+ * Calculate the final Y-direction sampling parameters.
+ *
+ * This function combines the scan size calculation and the Y-direction sampling
+ * calculations to provide the final sampling parameters for the Y direction.
+ *
+ * @param {number} D - Distance D in meters.
+ * @param {number} P - Distance P in meters.
+ * @param {number} Z - Distance Z in meters.
+ * @param {number} MRE - Maximum radial extent in meters.
+ * @param {number} Az_max - Maximum azimuth angle along one side, in degrees.
+ * @param {number} El_max - Maximum elevation angle along one side, in degrees.
+ * @param {number} frequency - Frequency in hertz.
+ * @returns {object} Object containing the final Y-direction sampling parameters.
+ * @memberof CylindiricalNearField
+ * @static
+ * @see {@link scanSizeY}
+ * @see {@link stepSizeY}
+ * @see {@link samplingCountY}
+ */
+function samplingParametersY(D, P, Z, MRE, Az_max, El_max, frequency) {
+  let scanSize = scanSizeY(D, P, Z, MRE, Az_max, El_max);
+  const samplingCount = samplingCountY(scanSize, frequency);
+  const stepSize = stepSizeY(frequency);
+  console.log(scanSize, samplingCount, stepSize);
+  scanSize = (samplingCount-1) * stepSize;
+
+  return {
+    scanSize,
+    stepSize,
+    samplingCount,
+  };
 }
 
 /**
@@ -224,6 +253,7 @@ function samplingCountAzimuth(Az_max, frequency, MRE) {
     scanSizeY,
     stepSizeY,
     samplingCountY,
+    samplingParametersY,
     stepSizeAzimuth,
     samplingCountAzimuth,
   };

@@ -9,6 +9,7 @@ export const {
   scanSizeY,
   stepSizeY,
   samplingCountY,
+  samplingParametersY,
   stepSizeAzimuth,
   samplingCountAzimuth,
 } = lib;
