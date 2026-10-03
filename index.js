@@ -6,13 +6,13 @@
     ? Object.assign(
       {},
       {
-        wavelength: require("./lib/wavelength"),
-        measurementDistance: require("./lib/measurement-distance"),
-        probeRadius: require("./lib/probe-radius"),
+        wavelength: require("./lib/01_wavelength"),
+        measurementDistance: require("./lib/02_measurement-distance"),
+        probeRadius: require("./lib/03_probe-radius"),
       },
       {
         scanSizeY: require("./lib/scan-size-y"),
-        stepSizeY: require("./lib/step-size-y"),
+        stepSizeY: require("./lib/04_step-size-y"),
         samplingCountY: require("./lib/sampling-count-y"),
         samplingParametersY: require("./lib/sampling-parameters-y"),
         stepSizeAzimuth: require("./lib/step-size-azimuth"),
