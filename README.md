@@ -1,57 +1,47 @@
-# Antenna Measurement CNF
+# Cylindirical Near-Field JavaScript Module
 
-A Python package for cylindrical near-field antenna measurement support functions.
+Dependency-free browser JavaScript library for cylindrical near-field antenna
+measurement calculations. All distances are in meters, frequencies in hertz,
+and angles in degrees.
 
-## Installation
+## Browser
+
+Load the script before your application code:
+
+```html
+<script src="./js/index.js"></script>
+<script>
+  const { measurementDistance, probeRadius } = window.CylindiricalNearField;
+  console.log(measurementDistance(1.2e9));
+  console.log(probeRadius(3, [0.4, 0.6, 1.195, 0.2]));
+</script>
+```
+
+The same API is available through CommonJS in Node.js with
+`const cnf = require("./index.js")`.
+
+## API
+
+- `wavelength(frequency)`
+- `measurementDistance(frequency, coeff = 5)`
+- `probeRadius(ref_distance, lengths)`
+- `scanSizeY(D, P, Z, R, Az_max, El_max)`
+- `stepSizeY(scan_size, frequency)`
+- `samplingCountY(scan_size, frequency)`
+- `stepSizeAzimuth(frequency, MRE)`
+- `samplingCountAzimuth(Az_max, frequency, MRE)`
+
+## Tests
+
+With Node.js installed, run `npm test` from this directory.
+
+## API Documentation
+
+Generate the JSDoc HTML site with:
 
 ```bash
-python -m pip install .
+npm run docs
 ```
 
-## Usage
-
-As a library:
-
-```python
-from CylindiricalNearField import probeRadius
-
-probeRadius(3, [0.4, 0.6, 1.195, 0.2])  # example usage
-```
-
-As a command line tool:
-
-```bash
-amcnf
-```
-
-## Package Functions
-
-The package provides the following functions:
-
-- `wavelength(frequency: float) -> float`
-- `measurementDistance(frequency: float, coefficient: float) -> float`
-- `probeRadius(ref_distance: float, lengths: list[float]) -> float`
-- `scanSizeY(D: float, P: float, Z: float, R: float, Az_max: float, El_max: float) -> float`
-- `stepSizeY(scan_size: float, frequency: float) -> float`
-- `samplingCountY(scan_size: float, frequency: float) -> int`
-- `stepSizeAzimuth(frequency: float, MRE: float) -> float`
-- `samplingCountAzimuth(Az_max: float, frequency: float, MRE: float) -> int`  
-
-## Development
-
-```bash
-pip install -e .[test]
-pytest --verbose -s
-```
-
-## Documentation
-
-The Sphinx documentation is hosted on [Read the Docs](https://cylindirical-near-field.readthedocs.org/).
-Build it locally with:
-
-```bash
-python -m pip install -e . -r docs/requirements.txt
-python -m sphinx -b html docs docs/_build/html
-```
-
-See the [documentation source](docs/index.rst) for the API reference and usage.
+The generated site is written to `docs/`. The configured JSDoc plugin renders
+each custom `@formula` tag on its function's API page.
