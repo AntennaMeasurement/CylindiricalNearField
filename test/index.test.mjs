@@ -1,6 +1,21 @@
-const assert = require("node:assert/strict");
-const test = require("node:test");
-const {
+﻿// CommonJS version
+// const assert = require("node:assert/strict");
+// const test = require("node:test");
+// const {
+//   measurementDistance,
+//   probeRadius,
+//   samplingCountAzimuth,
+//   samplingCountY,
+//   scanSizeY,
+//   stepSizeAzimuth,
+//   stepSizeY,
+//   wavelength,
+// } = require("../index.js");
+
+// ES module version
+import assert from "node:assert/strict";
+import test from "node:test";
+import {
   measurementDistance,
   probeRadius,
   samplingCountAzimuth,
@@ -9,7 +24,7 @@ const {
   stepSizeAzimuth,
   stepSizeY,
   wavelength,
-} = require("../index.js");
+} from "../index.mjs";
 
 test("wavelength and measurement distance", () => {
   const frequency = 299792458;
